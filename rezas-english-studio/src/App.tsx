@@ -85,10 +85,14 @@ function HomePage() {
                 <img  
   src="/myphoto.png"  
   alt="Reza - Professional English Teacher"  
-  className="rounded-full w-full max-w-lg mx-auto"  
+  className="w-full max-w-md"  
   style={{  
     boxShadow: "0 0 30px 5px rgba(147, 112, 219, 0.8)",
-    borderRadius: "50%"
+    borderRadius: "0",  // Makes it rectangular
+    aspectRatio: "3/4",  // Creates a portrait rectangle
+    objectFit: "cover",  // Ensures image fills the rectangle nicely
+    marginLeft: "auto",  // Pushes image to the right
+    marginRight: "2rem"  // Adds some space from the right edge
   }}  
 />
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
