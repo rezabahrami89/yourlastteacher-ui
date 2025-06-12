@@ -87,13 +87,13 @@ function HomePage() {
   alt="Reza - Professional English Teacher"  
   className="w-full max-w-md"  
   style={{  
-    boxShadow: "0 0 30px 5px rgba(147, 112, 219, 0.8)",
+    boxShadow: "0 0 30px 5px rgba(147, 112, 219, 0.8)", // Adds a glow effect around the image
     borderRadius: "0", // Keeps it rectangular
     aspectRatio: "4 / 3", // Ensures a horizontal layout
-    objectFit: "cover", // Ensures the image fills the rectangle nicely
+    objectFit: "contain", // Ensures the entire image is visible without cropping
     marginLeft: "auto", // Pushes the image to the right
     marginRight: "2rem", // Adds space from the right edge
-    maxHeight: "150px", // Prevents the image from exceeding the text
+    maxHeight: "150px", // Limits the height
     display: "block", // Ensures proper alignment
   }}  
 />
