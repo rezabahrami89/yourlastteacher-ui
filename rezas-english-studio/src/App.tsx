@@ -83,7 +83,7 @@ function HomePage() {
             <div className="flex-1">
               <div className="relative">
                 <img
-  src="myphoto.png"
+  src="/myphoto.png"
   alt="Reza - Professional English Teacher"
   className="rounded-2xl glow-effect w-full max-w-lg mx-auto"
 />
