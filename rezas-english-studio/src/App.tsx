@@ -83,19 +83,19 @@ function HomePage() {
             <div className="flex-1">
               <div className="relative">
                 <div style="display: flex; justify-content: flex-end; margin-right: 2rem;">
-  <img
-  src="/myphoto.png"
-  alt="Reza - Professional English Teacher"
-  style="
-    width: 100%;
-    max-width: 100%; /* Ensure it spans the full width of its container */
-    height: auto;
-    box-shadow: 0 0 30px 5px rgba(147, 112, 219, 0.8);
-    border-radius: 0;
-    object-fit: contain;
-    object-position: center; /* Ensures proper alignment */
-  "
-/>
+  img {
+  display: block; /* Ensures the image is treated as a block element */
+  margin: 0 auto; /* Centers the image */
+  width: auto; /* Keeps the image's natural size */
+  border: none; /* Removes any borders */
+  box-shadow: none; /* Removes any shadow */
+  transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+img:hover {
+  box-shadow: 0 0 15px 5px purple; /* Adds a purple glow */
+}
+
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
