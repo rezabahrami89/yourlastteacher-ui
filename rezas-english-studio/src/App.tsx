@@ -83,10 +83,10 @@ function HomePage() {
             <div className="flex-1">
               <div className="relative">
                 <img
-                  src="https://ugc.same-assets.com/ai6TgITjxdHUL2Tc-yI7hupbSqTnrnp7.jpeg"
-                  alt="Reza - Professional English Teacher"
-                  className="rounded-2xl glow-effect w-full max-w-lg mx-auto"
-                />
+  src="myphoto.png"
+  alt="Reza - Professional English Teacher"
+  className="rounded-2xl glow-effect w-full max-w-lg mx-auto"
+/>
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
