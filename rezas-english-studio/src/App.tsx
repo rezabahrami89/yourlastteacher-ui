@@ -88,11 +88,13 @@ function HomePage() {
   className="w-full max-w-md"  
   style={{  
     boxShadow: "0 0 30px 5px rgba(147, 112, 219, 0.8)",
-    borderRadius: "0",  // Keeps it rectangular
-    aspectRatio: "4/3",  // Changes to a landscape rectangle
-    objectFit: "cover",  // Ensures image fills the rectangle nicely
-    marginLeft: "auto",  // Pushes image to the right
-    marginRight: "2rem"  // Adds some space from the right edge
+    borderRadius: "0", // Keeps it rectangular
+    aspectRatio: "4 / 3", // Ensures a horizontal layout
+    objectFit: "cover", // Ensures the image fills the rectangle nicely
+    marginLeft: "auto", // Pushes the image to the right
+    marginRight: "2rem", // Adds space from the right edge
+    maxHeight: "150px", // Prevents the image from exceeding the text
+    display: "block", // Ensures proper alignment
   }}  
 />
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
