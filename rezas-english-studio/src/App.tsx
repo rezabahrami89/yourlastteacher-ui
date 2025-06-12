@@ -82,10 +82,14 @@ function HomePage() {
             </div>
             <div className="flex-1">
               <div className="relative">
-                <img
-  src="/myphoto.png"
-  alt="Reza - Professional English Teacher"
-  className="rounded-2xl glow-effect w-full max-w-lg mx-auto"
+                <img  
+  src="/myphoto.png"  
+  alt="Reza - Professional English Teacher"  
+  className="rounded-full w-full max-w-lg mx-auto"  
+  style={{  
+    boxShadow: "0 0 30px 5px rgba(147, 112, 219, 0.8)",
+    borderRadius: "50%"
+  }}  
 />
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
                   <div className="flex items-center gap-3">
