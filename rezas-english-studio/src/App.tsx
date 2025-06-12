@@ -82,21 +82,20 @@ function HomePage() {
             </div>
             <div className="flex-1">
               <div className="relative">
-                <img  
-  src="/myphoto.png"  
-  alt="Reza - Professional English Teacher"  
-  className="w-full max-w-md"  
-  style={{  
-    boxShadow: "0 0 30px 5px rgba(147, 112, 219, 0.8)", // Adds a glow effect around the image
-    borderRadius: "0", // Keeps it rectangular
-    aspectRatio: "4 / 3", // Ensures a horizontal layout
-    objectFit: "contain", // Ensures the entire image is visible without cropping
-    marginLeft: "auto", // Pushes the image to the right
-    marginRight: "2rem", // Adds space from the right edge
-    maxHeight: "150px", // Limits the height
-    display: "block", // Ensures proper alignment
-  }}  
-/>
+                <div style="display: flex; justify-content: flex-end; margin-right: 2rem;">
+  <img
+    src="/myphoto.png"
+    alt="Reza - Professional English Teacher"
+    style="
+      width: 100%;
+      max-width: 600px; /* Adjust as needed */
+      height: auto;
+      box-shadow: 0 0 30px 5px rgba(147, 112, 219, 0.8);
+      border-radius: 0;
+      object-fit: contain;
+    "
+  />
+</div>
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
