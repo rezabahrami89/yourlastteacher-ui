@@ -86,7 +86,8 @@ function HomePage() {
   img {
   display: block; /* Ensures the image is treated as a block element */
   margin: 0 auto; /* Centers the image */
-  width: auto; /* Keeps the image's natural size */
+  max-width: 100%; /* Scales the image within its container */
+  height: auto; /* Maintains the aspect ratio */
   border: none; /* Removes any borders */
   box-shadow: none; /* Removes any shadow */
   transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
@@ -95,7 +96,22 @@ function HomePage() {
 img:hover {
   box-shadow: 0 0 15px 5px purple; /* Adds a purple glow */
 }
-
+img {
+  max-width: 100%; /* Ensures the image scales within its container */
+  height: auto; /* Maintains the aspect ratio */
+}
+img {
+  object-fit: contain; /* Ensures the entire image is visible */
+}
+@media (min-width: 1024px) {
+  img {
+    width: 100%; /* Adjust as needed */
+  }
+}
+.image-container {
+  width: 100%;
+  height: auto; /* or remove height if unnecessary */
+}
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
