@@ -1,24 +1,46 @@
-import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { BookOpen, Users, Package, Star, Clock, Globe, ChevronRight, PlayCircle, Calendar, CreditCard } from 'lucide-react'
-import { BookingModal } from '@/components/BookingModal'
-import { Blog } from '@/components/Blog'
-import { BlogPost } from '@/components/BlogPost'
-import { StudentPortal } from '@/components/StudentPortal'
-import { Toaster } from '@/components/ui/sonner'
+import { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  BookOpen,
+  Users,
+  Package,
+  Star,
+  Clock,
+  Globe,
+  ChevronRight,
+  PlayCircle,
+  Calendar,
+  CreditCard,
+} from "lucide-react";
+import { BookingModal } from "@/components/BookingModal";
+import { Blog } from "@/components/Blog";
+import { BlogPost } from "@/components/BlogPost";
+import { StudentPortal } from "@/components/StudentPortal";
+import { Toaster } from "@/components/ui/sonner";
+
+// Ensure all components above exist and are exported as named exports.
+// If you see "Attempted import error", check the file paths and export statements.
 
 function HomePage() {
-  const [selectedMethod, setSelectedMethod] = useState<string | null>(null)
-  const [bookingModalOpen, setBookingModalOpen] = useState(false)
-  const [selectedClassType, setSelectedClassType] = useState<'private' | 'group' | 'offline' | null>(null)
+  const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [selectedClassType, setSelectedClassType] = useState<
+    "private" | "group" | "offline" | null
+  >(null);
 
-  const openBookingModal = (classType: 'private' | 'group' | 'offline') => {
-    setSelectedClassType(classType)
-    setBookingModalOpen(true)
-  }
+  const openBookingModal = (classType: "private" | "group" | "offline") => {
+    setSelectedClassType(classType);
+    setBookingModalOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,20 +50,59 @@ function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <BookOpen className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold gradient-text">Reza's English Studio</span>
+              <span className="text-2xl font-bold gradient-text">
+                Reza's English Studio
+              </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#about" className="text-foreground/80 hover:text-primary transition-colors">About</a>
-              <a href="#methods" className="text-foreground/80 hover:text-primary transition-colors">Teaching Methods</a>
-              <a href="/blog" className="text-foreground/80 hover:text-primary transition-colors">Blog</a>
-              <a href="/portal" className="text-foreground/80 hover:text-primary transition-colors">Student Portal</a>
-              <a href="#testimonials" className="text-foreground/80 hover:text-primary transition-colors">Testimonials</a>
-              <a href="#contact" className="text-foreground/80 hover:text-primary transition-colors">Contact</a>
-              <Button className="glow-effect" onClick={() => openBookingModal('private')}>Book a Class</Button>
+              <a
+                href="#about"
+                className="text-foreground/80 hover:text-primary transition-colors"
+              >
+                About
+              </a>
+              <a
+                href="#methods"
+                className="text-foreground/80 hover:text-primary transition-colors"
+              >
+                Teaching Methods
+              </a>
+              <Link
+                to="/blog"
+                className="text-foreground/80 hover:text-primary transition-colors"
+              >
+                Blog
+              </Link>
+              <Link
+                to="/portal"
+                className="text-foreground/80 hover:text-primary transition-colors"
+              >
+                Student Portal
+              </Link>
+              <a
+                href="#testimonials"
+                className="text-foreground/80 hover:text-primary transition-colors"
+              >
+                Testimonials
+              </a>
+              <a
+                href="#contact"
+                className="text-foreground/80 hover:text-primary transition-colors"
+              >
+                Contact
+              </a>
+              <Button
+                className="glow-effect"
+                type="button"
+                onClick={() => openBookingModal("private")}
+              >
+                Book a Class
+              </Button>
             </div>
           </div>
         </div>
       </nav>
+
       <section className="pt-24 pb-16 relative">
         <div className="hero-glow absolute inset-0" />
         <div className="container mx-auto px-6 relative z-10">
@@ -49,18 +110,29 @@ function HomePage() {
             <div className="flex-1 text-center lg:text-left">
               <h1 className="text-5xl lg:text-6xl font-bold mb-6">
                 Master English with
-                <span className="gradient-text block">Reza's Expert Guidance</span>
+                <span className="gradient-text block">
+                  Reza's Expert Guidance
+                </span>
               </h1>
               <p className="text-xl text-foreground/80 mb-8 leading-relaxed">
-                Transform your English skills with personalized lessons from a super professional teacher.
-                Choose from private classes, group sessions, or comprehensive offline packages.
+                Transform your English skills with personalized lessons from a
+                super professional teacher. Choose from private classes, group
+                sessions, or comprehensive offline packages.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button size="lg" className="glow-effect text-lg px-8 py-6" onClick={() => openBookingModal('private')}>
+                <Button
+                  size="lg"
+                  className="glow-effect text-lg px-8 py-6"
+                  onClick={() => openBookingModal("private")}
+                >
                   <Calendar className="mr-2 h-5 w-5" />
                   Book Your First Class
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-lg px-8 py-6"
+                >
                   <PlayCircle className="mr-2 h-5 w-5" />
                   Watch Demo
                 </Button>
@@ -82,40 +154,14 @@ function HomePage() {
             </div>
             <div className="flex-1">
               <div className="relative">
-                <div style="display: flex; justify-content: flex-end; margin-right: 2rem;">
-  img {
-  display: block; /* Ensures the image is treated as a block element */
-  margin: 0 auto; /* Centers the image */
-  max-width: 100%; /* Scales the image within its container */
-  height: auto; /* Maintains the aspect ratio */
-  border: none; /* Removes any borders */
-  box-shadow: none; /* Removes any shadow */
-  transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
-}
-
-img:hover {
-  box-shadow: 0 0 15px 5px purple; /* Adds a purple glow */
-}
-img {
-  max-width: 100%; /* Ensures the image scales within its container */
-  height: auto; /* Maintains the aspect ratio */
-}
-img {
-  object-fit: contain; /* Ensures the entire image is visible */
-}
-@media (min-width: 1024px) {
-  img {
-    width: 100%; /* Adjust as needed */
-  }
-}
-.image-container {
-  width: 100%;
-  height: auto; /* or remove height if unnecessary */
-}
+                {/* Place your image here, e.g.: */}
+                {/* <img src="/path/to/image.jpg" alt="Reza's English Studio" className="rounded-xl shadow-lg" /> */}
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-sm font-medium">Available for classes</span>
+                    <span className="text-sm font-medium">
+                      Available for classes
+                    </span>
                   </div>
                 </div>
               </div>
@@ -128,7 +174,8 @@ img {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">About Reza</h2>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              A dedicated English educator with years of experience in transforming students' language skills
+              A dedicated English educator with years of experience in
+              transforming students' language skills
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -141,7 +188,8 @@ img {
               </CardHeader>
               <CardContent>
                 <p className="text-foreground/80">
-                  Master's degree in English Literature with specialized training in ESL teaching methodologies.
+                  Master's degree in English Literature with specialized
+                  training in ESL teaching methodologies.
                 </p>
               </CardContent>
             </Card>
@@ -154,7 +202,8 @@ img {
               </CardHeader>
               <CardContent>
                 <p className="text-foreground/80">
-                  Over 8 years of experience teaching students from beginner to advanced levels across all age groups.
+                  Over 8 years of experience teaching students from beginner to
+                  advanced levels across all age groups.
                 </p>
               </CardContent>
             </Card>
@@ -167,7 +216,8 @@ img {
               </CardHeader>
               <CardContent>
                 <p className="text-foreground/80">
-                  Successfully taught students from 50+ countries with customized approaches for different learning styles.
+                  Successfully taught students from 50+ countries with
+                  customized approaches for different learning styles.
                 </p>
               </CardContent>
             </Card>
@@ -177,25 +227,39 @@ img {
       <section id="methods" className="py-16 bg-secondary/20">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Choose Your Learning Path</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              Choose Your Learning Path
+            </h2>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Three flexible options designed to match your schedule, budget, and learning preferences
+              Three flexible options designed to match your schedule, budget,
+              and learning preferences
             </p>
           </div>
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Private Classes */}
-            <Card className="border-border bg-card/50 backdrop-blur-sm hover:glow-effect transition-all duration-300 cursor-pointer"
-                  onClick={() => setSelectedMethod('private')}>
+            <Card
+              className="border-border bg-card/50 backdrop-blur-sm hover:glow-effect transition-all duration-300 cursor-pointer"
+              onClick={() => setSelectedMethod("private")}
+            >
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <Badge className="bg-primary/20 text-primary border-primary/50">Most Popular</Badge>
+                  <Badge className="bg-primary/20 text-primary border-primary/50">
+                    Most Popular
+                  </Badge>
                   <Clock className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-2xl">Private Classes</CardTitle>
-                <CardDescription>One-on-one personalized English lessons</CardDescription>
+                <CardDescription>
+                  One-on-one personalized English lessons
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-3xl font-bold text-primary">$45<span className="text-lg font-normal text-foreground/60">/hour</span></div>
+                <div className="text-3xl font-bold text-primary">
+                  $45
+                  <span className="text-lg font-normal text-foreground/60">
+                    /hour
+                  </span>
+                </div>
                 <ul className="space-y-2 text-sm text-foreground/80">
                   <li className="flex items-center gap-2">
                     <ChevronRight className="h-4 w-4 text-primary" />
@@ -214,7 +278,10 @@ img {
                     Focus on speaking confidence
                   </li>
                 </ul>
-                <Button className="w-full glow-effect" onClick={() => openBookingModal('private')}>
+                <Button
+                  className="w-full glow-effect"
+                  onClick={() => openBookingModal("private")}
+                >
                   <Calendar className="mr-2 h-4 w-4" />
                   Book Private Class
                 </Button>
@@ -222,18 +289,32 @@ img {
             </Card>
 
             {/* Group Classes */}
-            <Card className="border-border bg-card/50 backdrop-blur-sm hover:glow-effect transition-all duration-300 cursor-pointer"
-                  onClick={() => setSelectedMethod('group')}>
+            <Card
+              className="border-border bg-card/50 backdrop-blur-sm hover:glow-effect transition-all duration-300 cursor-pointer"
+              onClick={() => setSelectedMethod("group")}
+            >
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <Badge variant="outline" className="border-primary/50 text-primary">Great Value</Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-primary/50 text-primary"
+                  >
+                    Great Value
+                  </Badge>
                   <Users className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-2xl">Group Classes</CardTitle>
-                <CardDescription>Small group sessions (3-5 students)</CardDescription>
+                <CardDescription>
+                  Small group sessions (3-5 students)
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-3xl font-bold text-primary">$20<span className="text-lg font-normal text-foreground/60">/hour</span></div>
+                <div className="text-3xl font-bold text-primary">
+                  $20
+                  <span className="text-lg font-normal text-foreground/60">
+                    /hour
+                  </span>
+                </div>
                 <ul className="space-y-2 text-sm text-foreground/80">
                   <li className="flex items-center gap-2">
                     <ChevronRight className="h-4 w-4 text-primary" />
@@ -252,7 +333,10 @@ img {
                     Cost-effective learning
                   </li>
                 </ul>
-                <Button className="w-full glow-effect" onClick={() => openBookingModal('group')}>
+                <Button
+                  className="w-full glow-effect"
+                  onClick={() => openBookingModal("group")}
+                >
                   <Calendar className="mr-2 h-4 w-4" />
                   Join Group Class
                 </Button>
@@ -260,18 +344,32 @@ img {
             </Card>
 
             {/* Offline Packages */}
-            <Card className="border-border bg-card/50 backdrop-blur-sm hover:glow-effect transition-all duration-300 cursor-pointer"
-                  onClick={() => setSelectedMethod('offline')}>
+            <Card
+              className="border-border bg-card/50 backdrop-blur-sm hover:glow-effect transition-all duration-300 cursor-pointer"
+              onClick={() => setSelectedMethod("offline")}
+            >
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <Badge variant="outline" className="border-primary/50 text-primary">Self-Paced</Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-primary/50 text-primary"
+                  >
+                    Self-Paced
+                  </Badge>
                   <Package className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-2xl">Offline Packages</CardTitle>
-                <CardDescription>Comprehensive self-study materials</CardDescription>
+                <CardDescription>
+                  Comprehensive self-study materials
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-3xl font-bold text-primary">$199<span className="text-lg font-normal text-foreground/60">/package</span></div>
+                <div className="text-3xl font-bold text-primary">
+                  $199
+                  <span className="text-lg font-normal text-foreground/60">
+                    /package
+                  </span>
+                </div>
                 <ul className="space-y-2 text-sm text-foreground/80">
                   <li className="flex items-center gap-2">
                     <ChevronRight className="h-4 w-4 text-primary" />
@@ -290,7 +388,10 @@ img {
                     Lifetime access
                   </li>
                 </ul>
-                <Button className="w-full glow-effect" onClick={() => openBookingModal('offline')}>
+                <Button
+                  className="w-full glow-effect"
+                  onClick={() => openBookingModal("offline")}
+                >
                   <CreditCard className="mr-2 h-4 w-4" />
                   Purchase Package
                 </Button>
@@ -304,7 +405,8 @@ img {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Student Success Stories</h2>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Hear from students who have transformed their English skills with Reza's guidance
+              Hear from students who have transformed their English skills with
+              Reza's guidance
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -323,11 +425,16 @@ img {
               <CardContent>
                 <div className="flex mb-2">
                   {Array.from({ length: 5 }, (_, i) => (
-                    <Star key={`sarah-star-${i}`} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star
+                      key={`sarah-star-${i}`}
+                      className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                    />
                   ))}
                 </div>
                 <p className="text-foreground/80">
-                  "Reza's teaching method is exceptional. In just 3 months, my confidence in speaking English improved dramatically. Highly recommended!"
+                  "Reza's teaching method is exceptional. In just 3 months, my
+                  confidence in speaking English improved dramatically. Highly
+                  recommended!"
                 </p>
               </CardContent>
             </Card>
@@ -346,11 +453,16 @@ img {
               <CardContent>
                 <div className="flex mb-2">
                   {Array.from({ length: 5 }, (_, i) => (
-                    <Star key={`mohammad-star-${i}`} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star
+                      key={`mohammad-star-${i}`}
+                      className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                    />
                   ))}
                 </div>
                 <p className="text-foreground/80">
-                  "The offline package was perfect for my busy schedule. Comprehensive materials and clear explanations helped me ace my IELTS exam."
+                  "The offline package was perfect for my busy schedule.
+                  Comprehensive materials and clear explanations helped me ace
+                  my IELTS exam."
                 </p>
               </CardContent>
             </Card>
@@ -369,11 +481,16 @@ img {
               <CardContent>
                 <div className="flex mb-2">
                   {Array.from({ length: 5 }, (_, i) => (
-                    <Star key={`lisa-star-${i}`} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star
+                      key={`lisa-star-${i}`}
+                      className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                    />
                   ))}
                 </div>
                 <p className="text-foreground/80">
-                  "Group classes were amazing! Learning with others made it fun and engaging. Reza creates such a supportive learning environment."
+                  "Group classes were amazing! Learning with others made it fun
+                  and engaging. Reza creates such a supportive learning
+                  environment."
                 </p>
               </CardContent>
             </Card>
@@ -383,13 +500,20 @@ img {
       <section id="contact" className="py-16 bg-secondary/20">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Ready to Start Your English Journey?</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              Ready to Start Your English Journey?
+            </h2>
             <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-              Contact me today to discuss your learning goals and find the perfect program for you
+              Contact me today to discuss your learning goals and find the
+              perfect program for you
             </p>
           </div>
           <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
-            <Button size="lg" className="glow-effect text-lg px-8 py-6" onClick={() => openBookingModal('private')}>
+            <Button
+              size="lg"
+              className="glow-effect text-lg px-8 py-6"
+              onClick={() => openBookingModal("private")}
+            >
               <Calendar className="mr-2 h-5 w-5" />
               Schedule Free Consultation
             </Button>
@@ -399,14 +523,20 @@ img {
             </Button>
           </div>
           <div className="mt-12 text-center text-foreground/60">
-            <p>📧 reza@englishstudio.com | 📱 +1 (555) 123-4567 | 🌐 Available worldwide via online classes</p>
+            <p>
+              📧 reza@englishstudio.com | 📱 +1 (555) 123-4567 | 🌐 Available
+              worldwide via online classes
+            </p>
           </div>
         </div>
       </section>
       <footer className="py-8 border-t border-border">
         <div className="container mx-auto px-6">
           <div className="text-center text-foreground/60">
-            <p>&copy; 2025 Reza's English Studio. All rights reserved. Transform your English, transform your future.</p>
+            <p>
+              &copy; 2025 Reza's English Studio. All rights reserved. Transform
+              your English, transform your future.
+            </p>
           </div>
         </div>
       </footer>
@@ -417,7 +547,7 @@ img {
       />
       <Toaster />
     </div>
-  )
+  );
 }
 
 function App() {
@@ -430,7 +560,7 @@ function App() {
         <Route path="/portal" element={<StudentPortal />} />
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
