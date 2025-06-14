@@ -154,8 +154,15 @@ function HomePage() {
             </div>
             <div className="flex-1">
               <div className="relative">
-                {/* Place your image here, e.g.: */}
-                {/* <img src="/path/to/image.jpg" alt="Reza's English Studio" className="rounded-xl shadow-lg" /> */}
+                <img
+                  src="/myphoto.png"
+                  alt="Reza - English Teacher"
+                  className="rounded-xl shadow-lg w-full h-auto object-cover object-top"
+                  style={{
+                    maxHeight: "400px",
+                    objectPosition: "50% 5%",
+                  }}
+                />
                 <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-xl p-4 glow-effect">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
