@@ -145,13 +145,20 @@ export function TeacherDashboard() {
     <div className="min-h-screen bg-background py-24">
       <div className="max-w-7xl mx-auto px-6 space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold mb-2">
-            Teacher <span className="gradient-text">Dashboard</span>
-          </h1>
-          <p className="text-muted-foreground">
-            Welcome back, Reza! Manage your students and classes
-          </p>
+        <div className="relative">
+          {/* Theme Toggle - Top Right */}
+          <div className="absolute top-0 right-0 z-10">
+            <ThemeToggle />
+          </div>
+
+          <div className="text-center space-y-2">
+            <h1 className="text-4xl font-bold mb-2">
+              Teacher <span className="gradient-text">Dashboard</span>
+            </h1>
+            <p className="text-muted-foreground">
+              Welcome back, Reza! Manage your students and classes
+            </p>
+          </div>
         </div>
 
         {/* Stats Cards */}
