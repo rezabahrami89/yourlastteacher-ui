@@ -156,7 +156,17 @@ export function StudentPortal() {
   const [showVideoCall, setShowVideoCall] = useState(false);
 
   const handleLogin = () => {
-    // Mock login - in a real app, you'd validate credentials
+    // Check if it's admin login
+    if (
+      loginData.email === "reza@admin.com" &&
+      loginData.password === "admin123"
+    ) {
+      // Redirect to admin dashboard
+      window.location.href = "/admin";
+      return;
+    }
+
+    // Regular student login
     if (loginData.email && loginData.password) {
       setIsLoggedIn(true);
     }
