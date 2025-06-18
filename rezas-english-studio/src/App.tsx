@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -20,15 +21,15 @@ import {
   PlayCircle,
   Calendar,
   CreditCard,
+  Menu,
+  X,
 } from "lucide-react";
 import { BookingModal } from "@/components/BookingModal";
 import { Blog } from "@/components/Blog";
 import { BlogPost } from "@/components/BlogPost";
 import { StudentPortal } from "@/components/StudentPortal";
 import { Toaster } from "@/components/ui/sonner";
-
-// Ensure all components above exist and are exported as named exports.
-// If you see "Attempted import error", check the file paths and export statements.
+import { TeacherDashboard } from "@/components/TeacherDashboard";
 
 function HomePage() {
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
@@ -36,6 +37,7 @@ function HomePage() {
   const [selectedClassType, setSelectedClassType] = useState<
     "private" | "group" | "offline" | null
   >(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const openBookingModal = (classType: "private" | "group" | "offline") => {
     setSelectedClassType(classType);
@@ -48,13 +50,16 @@ function HomePage() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center space-x-2">
               <BookOpen className="h-8 w-8 text-primary" />
               <span className="text-2xl font-bold gradient-text">
                 Reza's English Studio
               </span>
             </div>
-            <div className="hidden md:flex items-center space-x-8">
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-6">
               <a
                 href="#about"
                 className="text-foreground/80 hover:text-primary transition-colors"
@@ -91,15 +96,93 @@ function HomePage() {
               >
                 Contact
               </a>
+              <ThemeToggle />
               <Button
-                className="glow-effect"
+                className="glow-effect ml-4"
                 type="button"
                 onClick={() => openBookingModal("private")}
               >
                 Book a Class
               </Button>
             </div>
+
+            {/* Mobile Navigation */}
+            <div className="lg:hidden flex items-center space-x-3">
+              <ThemeToggle />
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="relative"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </Button>
+            </div>
           </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="lg:hidden mt-4 pb-4 border-t border-border">
+              <div className="flex flex-col space-y-4 pt-4">
+                <a
+                  href="#about"
+                  className="text-foreground/80 hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a
+                  href="#methods"
+                  className="text-foreground/80 hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Teaching Methods
+                </a>
+                <Link
+                  to="/blog"
+                  className="text-foreground/80 hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
+                <Link
+                  to="/portal"
+                  className="text-foreground/80 hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Student Portal
+                </Link>
+                <a
+                  href="#testimonials"
+                  className="text-foreground/80 hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Testimonials
+                </a>
+                <a
+                  href="#contact"
+                  className="text-foreground/80 hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </a>
+                <Button
+                  className="glow-effect w-full mt-4"
+                  type="button"
+                  onClick={() => {
+                    openBookingModal("private");
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Book a Class
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -565,6 +648,7 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/portal" element={<StudentPortal />} />
+        <Route path="/admin" element={<TeacherDashboard />} />
       </Routes>
     </div>
   );

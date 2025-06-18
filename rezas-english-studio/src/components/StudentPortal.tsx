@@ -1,34 +1,55 @@
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Progress } from '@/components/ui/progress'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useState } from "react";
 import {
-  BookOpen, Download, Play, Clock, Calendar, Trophy, Star,
-  FileText, Headphones, Video, Target, CheckCircle, AlertCircle,
-  GraduationCap, BarChart, Users, MessageSquare
-} from 'lucide-react'
-import { VideoCall } from '@/components/VideoCall'
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  BookOpen,
+  Download,
+  Play,
+  Clock,
+  Calendar,
+  Trophy,
+  Star,
+  FileText,
+  Headphones,
+  Video,
+  Target,
+  CheckCircle,
+  AlertCircle,
+  GraduationCap,
+  BarChart,
+  Users,
+  MessageSquare,
+} from "lucide-react";
+import { VideoCall } from "@/components/VideoCall";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // Mock student data - in a real app, this would come from your backend
 const mockStudentData = {
-  id: 'student_001',
-  name: 'John Smith',
-  email: 'john.smith@email.com',
-  level: 'Intermediate',
-  joinDate: '2025-01-01',
+  id: "student_001",
+  name: "John Smith",
+  email: "john.smith@email.com",
+  level: "Intermediate",
+  joinDate: "2025-01-01",
   totalHours: 24,
   completedLessons: 18,
   totalLessons: 30,
   nextClass: {
-    date: '2025-01-15',
-    time: '14:00',
-    type: 'Private Class',
-    topic: 'Business English Presentation Skills'
+    date: "2025-01-15",
+    time: "14:00",
+    type: "Private Class",
+    topic: "Business English Presentation Skills",
   },
   progress: {
     speaking: 75,
@@ -36,115 +57,115 @@ const mockStudentData = {
     reading: 68,
     writing: 71,
     grammar: 79,
-    vocabulary: 85
+    vocabulary: 85,
   },
   achievements: [
-    { id: 1, title: 'First Class Completed', icon: '🎯', date: '2025-01-02' },
-    { id: 2, title: 'Speaking Confidence', icon: '🗣️', date: '2025-01-05' },
-    { id: 3, title: 'Grammar Master', icon: '📝', date: '2025-01-08' },
-    { id: 4, title: 'Vocabulary Builder', icon: '📚', date: '2025-01-10' }
-  ]
-}
+    { id: 1, title: "First Class Completed", icon: "🎯", date: "2025-01-02" },
+    { id: 2, title: "Speaking Confidence", icon: "🗣️", date: "2025-01-05" },
+    { id: 3, title: "Grammar Master", icon: "📝", date: "2025-01-08" },
+    { id: 4, title: "Vocabulary Builder", icon: "📚", date: "2025-01-10" },
+  ],
+};
 
 const mockMaterials = [
   {
     id: 1,
-    title: 'English Grammar Fundamentals',
-    type: 'PDF',
-    category: 'Grammar',
-    size: '2.4 MB',
-    downloadUrl: '#',
-    completed: true
+    title: "English Grammar Fundamentals",
+    type: "PDF",
+    category: "Grammar",
+    size: "2.4 MB",
+    downloadUrl: "#",
+    completed: true,
   },
   {
     id: 2,
-    title: 'Business Vocabulary Audio Course',
-    type: 'Audio',
-    category: 'Vocabulary',
-    duration: '45 min',
-    downloadUrl: '#',
-    completed: true
+    title: "Business Vocabulary Audio Course",
+    type: "Audio",
+    category: "Vocabulary",
+    duration: "45 min",
+    downloadUrl: "#",
+    completed: true,
   },
   {
     id: 3,
-    title: 'IELTS Speaking Practice Videos',
-    type: 'Video',
-    category: 'Speaking',
-    duration: '2.5 hours',
-    downloadUrl: '#',
-    completed: false
+    title: "IELTS Speaking Practice Videos",
+    type: "Video",
+    category: "Speaking",
+    duration: "2.5 hours",
+    downloadUrl: "#",
+    completed: false,
   },
   {
     id: 4,
-    title: 'Advanced Reading Comprehension',
-    type: 'PDF',
-    category: 'Reading',
-    size: '3.1 MB',
-    downloadUrl: '#',
-    completed: false
+    title: "Advanced Reading Comprehension",
+    type: "PDF",
+    category: "Reading",
+    size: "3.1 MB",
+    downloadUrl: "#",
+    completed: false,
   },
   {
     id: 5,
-    title: 'Pronunciation Guide with Exercises',
-    type: 'Audio',
-    category: 'Speaking',
-    duration: '1.2 hours',
-    downloadUrl: '#',
-    completed: true
-  }
-]
+    title: "Pronunciation Guide with Exercises",
+    type: "Audio",
+    category: "Speaking",
+    duration: "1.2 hours",
+    downloadUrl: "#",
+    completed: true,
+  },
+];
 
 const mockLessons = [
   {
     id: 1,
-    title: 'Introduction to Business English',
-    date: '2025-01-02',
+    title: "Introduction to Business English",
+    date: "2025-01-02",
     duration: 60,
-    type: 'Private',
-    status: 'completed',
-    notes: 'Great start! Focus on expanding business vocabulary.',
-    homework: 'Complete Unit 1 exercises'
+    type: "Private",
+    status: "completed",
+    notes: "Great start! Focus on expanding business vocabulary.",
+    homework: "Complete Unit 1 exercises",
   },
   {
     id: 2,
-    title: 'Email Writing Skills',
-    date: '2025-01-04',
+    title: "Email Writing Skills",
+    date: "2025-01-04",
     duration: 60,
-    type: 'Private',
-    status: 'completed',
-    notes: 'Excellent improvement in formal writing structure.',
-    homework: 'Write 3 practice emails'
+    type: "Private",
+    status: "completed",
+    notes: "Excellent improvement in formal writing structure.",
+    homework: "Write 3 practice emails",
   },
   {
     id: 3,
-    title: 'Presentation Skills Workshop',
-    date: '2025-01-15',
+    title: "Presentation Skills Workshop",
+    date: "2025-01-15",
     duration: 60,
-    type: 'Private',
-    status: 'scheduled',
-    notes: '',
-    homework: 'Prepare a 5-minute presentation'
-  }
-]
+    type: "Private",
+    status: "scheduled",
+    notes: "",
+    homework: "Prepare a 5-minute presentation",
+  },
+];
 
 export function StudentPortal() {
-  const [activeTab, setActiveTab] = useState('dashboard')
-  const [loginMode, setLoginMode] = useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [loginData, setLoginData] = useState({ email: '', password: '' })
-  const [showVideoCall, setShowVideoCall] = useState(false)
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [loginMode, setLoginMode] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [showVideoCall, setShowVideoCall] = useState(false);
 
   const handleLogin = () => {
     // Mock login - in a real app, you'd validate credentials
     if (loginData.email && loginData.password) {
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
     }
-  }
+  };
 
   const handleDownload = (material: any) => {
     // Mock download - in a real app, you'd handle file downloads
-    console.log('Downloading:', material.title)
-  }
+    console.log("Downloading:", material.title);
+  };
 
   if (!isLoggedIn) {
     return (
@@ -161,6 +182,11 @@ export function StudentPortal() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Theme Toggle on Login Page */}
+              <div className="flex justify-center mb-4">
+                <ThemeToggle />
+              </div>
+
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
@@ -169,7 +195,12 @@ export function StudentPortal() {
                     type="email"
                     placeholder="your.email@example.com"
                     value={loginData.email}
-                    onChange={(e) => setLoginData(prev => ({ ...prev, email: e.target.value }))}
+                    onChange={(e) =>
+                      setLoginData((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -179,7 +210,12 @@ export function StudentPortal() {
                     type="password"
                     placeholder="Enter your password"
                     value={loginData.password}
-                    onChange={(e) => setLoginData(prev => ({ ...prev, password: e.target.value }))}
+                    onChange={(e) =>
+                      setLoginData((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
                   />
                 </div>
               </div>
@@ -200,26 +236,30 @@ export function StudentPortal() {
           </Card>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-background py-24">
       <div className="container mx-auto px-6">
-        {/* Header */}
+        {/* Header with Theme Toggle */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold mb-2">
-              Welcome back, <span className="gradient-text">{mockStudentData.name}</span>
+              Welcome back,{" "}
+              <span className="gradient-text">{mockStudentData.name}</span>
             </h1>
             <p className="text-muted-foreground">
               Continue your English learning journey with Reza
             </p>
           </div>
-          <Avatar className="w-16 h-16">
-            <AvatarImage src="https://ugc.same-assets.com/ai6TgITjxdHUL2Tc-yI7hupbSqTnrnp7.jpeg" />
-            <AvatarFallback>JS</AvatarFallback>
-          </Avatar>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <Avatar className="w-16 h-16">
+              <AvatarImage src="https://ugc.same-assets.com/ai6TgITjxdHUL2Tc-yI7hupbSqTnrnp7.jpeg" />
+              <AvatarFallback>JS</AvatarFallback>
+            </Avatar>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -244,8 +284,12 @@ export function StudentPortal() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div>
-                    <p className="font-semibold">{mockStudentData.nextClass.topic}</p>
-                    <p className="text-sm text-muted-foreground">{mockStudentData.nextClass.type}</p>
+                    <p className="font-semibold">
+                      {mockStudentData.nextClass.topic}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {mockStudentData.nextClass.type}
+                    </p>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Calendar className="h-4 w-4" />
@@ -253,7 +297,11 @@ export function StudentPortal() {
                     <Clock className="h-4 w-4 ml-2" />
                     {mockStudentData.nextClass.time}
                   </div>
-                  <Button size="sm" className="w-full" onClick={() => setShowVideoCall(true)}>
+                  <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={() => setShowVideoCall(true)}
+                  >
                     <Video className="h-4 w-4 mr-2" />
                     Join Class
                   </Button>
@@ -271,14 +319,24 @@ export function StudentPortal() {
                 <CardContent className="space-y-3">
                   <div className="text-center">
                     <div className="text-3xl font-bold text-primary">
-                      {Math.round((mockStudentData.completedLessons / mockStudentData.totalLessons) * 100)}%
+                      {Math.round(
+                        (mockStudentData.completedLessons /
+                          mockStudentData.totalLessons) *
+                          100
+                      )}
+                      %
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      {mockStudentData.completedLessons} of {mockStudentData.totalLessons} lessons
+                      {mockStudentData.completedLessons} of{" "}
+                      {mockStudentData.totalLessons} lessons
                     </p>
                   </div>
                   <Progress
-                    value={(mockStudentData.completedLessons / mockStudentData.totalLessons) * 100}
+                    value={
+                      (mockStudentData.completedLessons /
+                        mockStudentData.totalLessons) *
+                      100
+                    }
                     className="w-full"
                   />
                   <p className="text-xs text-muted-foreground text-center">
@@ -306,7 +364,9 @@ export function StudentPortal() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm">Achievements:</span>
-                    <span className="text-sm">{mockStudentData.achievements.length}</span>
+                    <span className="text-sm">
+                      {mockStudentData.achievements.length}
+                    </span>
                   </div>
                 </CardContent>
               </Card>
@@ -320,19 +380,30 @@ export function StudentPortal() {
               <CardContent>
                 <div className="space-y-4">
                   {mockLessons.slice(0, 3).map((lesson) => (
-                    <div key={lesson.id} className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg">
+                    <div
+                      key={lesson.id}
+                      className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg"
+                    >
                       <div className="flex items-center gap-3">
-                        {lesson.status === 'completed' ? (
+                        {lesson.status === "completed" ? (
                           <CheckCircle className="h-5 w-5 text-green-500" />
                         ) : (
                           <Clock className="h-5 w-5 text-yellow-500" />
                         )}
                         <div>
                           <p className="font-medium">{lesson.title}</p>
-                          <p className="text-sm text-muted-foreground">{lesson.date} • {lesson.duration}min</p>
+                          <p className="text-sm text-muted-foreground">
+                            {lesson.date} • {lesson.duration}min
+                          </p>
                         </div>
                       </div>
-                      <Badge variant={lesson.status === 'completed' ? 'default' : 'secondary'}>
+                      <Badge
+                        variant={
+                          lesson.status === "completed"
+                            ? "default"
+                            : "secondary"
+                        }
+                      >
                         {lesson.status}
                       </Badge>
                     </div>
@@ -357,20 +428,32 @@ export function StudentPortal() {
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
                   {mockMaterials.map((material) => (
-                    <div key={material.id} className="p-4 border border-border rounded-lg space-y-3">
+                    <div
+                      key={material.id}
+                      className="p-4 border border-border rounded-lg space-y-3"
+                    >
                       <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
-                          {material.type === 'PDF' && <FileText className="h-5 w-5 text-red-500" />}
-                          {material.type === 'Audio' && <Headphones className="h-5 w-5 text-blue-500" />}
-                          {material.type === 'Video' && <Video className="h-5 w-5 text-purple-500" />}
+                          {material.type === "PDF" && (
+                            <FileText className="h-5 w-5 text-red-500" />
+                          )}
+                          {material.type === "Audio" && (
+                            <Headphones className="h-5 w-5 text-blue-500" />
+                          )}
+                          {material.type === "Video" && (
+                            <Video className="h-5 w-5 text-purple-500" />
+                          )}
                           <div>
                             <p className="font-medium">{material.title}</p>
                             <p className="text-sm text-muted-foreground">
-                              {material.category} • {material.size || material.duration}
+                              {material.category} •{" "}
+                              {material.size || material.duration}
                             </p>
                           </div>
                         </div>
-                        {material.completed && <CheckCircle className="h-5 w-5 text-green-500" />}
+                        {material.completed && (
+                          <CheckCircle className="h-5 w-5 text-green-500" />
+                        )}
                       </div>
                       <Button
                         size="sm"
@@ -378,7 +461,9 @@ export function StudentPortal() {
                         onClick={() => handleDownload(material)}
                       >
                         <Download className="h-4 w-4 mr-2" />
-                        {material.type === 'Video' || material.type === 'Audio' ? 'Play' : 'Download'}
+                        {material.type === "Video" || material.type === "Audio"
+                          ? "Play"
+                          : "Download"}
                       </Button>
                     </div>
                   ))}
@@ -402,7 +487,10 @@ export function StudentPortal() {
               <CardContent>
                 <div className="space-y-4">
                   {mockLessons.map((lesson) => (
-                    <div key={lesson.id} className="p-4 border border-border rounded-lg space-y-3">
+                    <div
+                      key={lesson.id}
+                      className="p-4 border border-border rounded-lg space-y-3"
+                    >
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">{lesson.title}</p>
@@ -410,18 +498,28 @@ export function StudentPortal() {
                             {lesson.date} • {lesson.duration}min • {lesson.type}
                           </p>
                         </div>
-                        <Badge variant={lesson.status === 'completed' ? 'default' : 'secondary'}>
+                        <Badge
+                          variant={
+                            lesson.status === "completed"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
                           {lesson.status}
                         </Badge>
                       </div>
                       {lesson.notes && (
                         <div className="p-3 bg-secondary/20 rounded">
-                          <p className="text-sm"><strong>Notes:</strong> {lesson.notes}</p>
+                          <p className="text-sm">
+                            <strong>Notes:</strong> {lesson.notes}
+                          </p>
                         </div>
                       )}
                       {lesson.homework && (
                         <div className="p-3 bg-primary/10 rounded">
-                          <p className="text-sm"><strong>Homework:</strong> {lesson.homework}</p>
+                          <p className="text-sm">
+                            <strong>Homework:</strong> {lesson.homework}
+                          </p>
                         </div>
                       )}
                     </div>
@@ -445,15 +543,21 @@ export function StudentPortal() {
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
-                  {Object.entries(mockStudentData.progress).map(([skill, progress]) => (
-                    <div key={skill} className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="capitalize font-medium">{skill}</span>
-                        <span className="text-sm text-muted-foreground">{progress}%</span>
+                  {Object.entries(mockStudentData.progress).map(
+                    ([skill, progress]) => (
+                      <div key={skill} className="space-y-2">
+                        <div className="flex justify-between">
+                          <span className="capitalize font-medium">
+                            {skill}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            {progress}%
+                          </span>
+                        </div>
+                        <Progress value={progress} className="w-full" />
                       </div>
-                      <Progress value={progress} className="w-full" />
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -474,12 +578,17 @@ export function StudentPortal() {
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
                   {mockStudentData.achievements.map((achievement) => (
-                    <div key={achievement.id} className="p-4 border border-border rounded-lg">
+                    <div
+                      key={achievement.id}
+                      className="p-4 border border-border rounded-lg"
+                    >
                       <div className="flex items-center gap-3">
                         <div className="text-2xl">{achievement.icon}</div>
                         <div>
                           <p className="font-medium">{achievement.title}</p>
-                          <p className="text-sm text-muted-foreground">Earned on {achievement.date}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Earned on {achievement.date}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -508,16 +617,16 @@ export function StudentPortal() {
 
                 <VideoCall
                   classData={{
-                    id: 'class_001',
+                    id: "class_001",
                     title: mockStudentData.nextClass.topic,
                     date: mockStudentData.nextClass.date,
                     time: mockStudentData.nextClass.time,
                     duration: 60,
-                    type: 'zoom',
-                    teacher: 'Reza',
-                    meetingUrl: 'https://zoom.us/j/1234567890',
-                    meetingId: '123 456 7890',
-                    password: 'english123'
+                    type: "zoom",
+                    teacher: "Reza",
+                    meetingUrl: "https://zoom.us/j/1234567890",
+                    meetingId: "123 456 7890",
+                    password: "english123",
                   }}
                 />
               </div>
@@ -526,5 +635,5 @@ export function StudentPortal() {
         )}
       </div>
     </div>
-  )
+  );
 }
