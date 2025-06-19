@@ -1,22 +1,4 @@
-// Add this import at the top
-import { LogOut } from "lucide-react";
-
-// Add this logout function inside your component
-const handleLogout = () => {
-  window.location.href = "/"; // Goes back to home page
-};
-
-// Add this logout button in your JSX (wherever makes sense in your layout)
-<button
-  onClick={handleLogout}
-  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
->
-  <LogOut size={16} />
-  Logout
-</button>;
-
-import { Navbar } from "@/components/ui/Navbar";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -24,151 +6,263 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "./ThemeToggle";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Users,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   BookOpen,
   Calendar,
-  DollarSign,
-  TrendingUp,
   Clock,
-  Star,
+  Users,
+  Video,
   MessageSquare,
-  Mail,
-  Phone,
-  Globe,
-  Edit,
-  Trash2,
-  Plus,
-  Search,
-  Filter,
-  Download,
-  BarChart3,
-  PieChart,
-  Activity,
-  GraduationCap,
+  BarChart,
+  FileText,
+  Star,
+  TrendingUp,
   CheckCircle,
   AlertCircle,
-  Award,
+  GraduationCap,
+  Phone,
+  Mail,
+  Globe,
   Target,
+  Award,
+  LogOut,
+  User,
+  Settings,
+  ChevronDown,
 } from "lucide-react";
+import { VideoCall } from "@/components/VideoCall";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
-// Mock data for demonstration
+// Mock teacher data
+const mockTeacherData = {
+  name: "Reza",
+  email: "reza@yourlastteacher.com",
+  totalStudents: 24,
+  activeClasses: 8,
+  completedLessons: 156,
+  rating: 4.9,
+  experience: "5+ years",
+  specializations: ["Business English", "IELTS Prep", "Conversation"],
+};
+
+// Mock students data
 const mockStudents = [
   {
     id: 1,
-    name: "Sarah Ahmed",
-    email: "sarah@example.com",
+    name: "John Smith",
+    email: "john@email.com",
     level: "Intermediate",
     progress: 75,
-    lessonsCompleted: 15,
-    nextLesson: "2025-06-17T10:00:00",
+    lastClass: "2025-01-12",
+    nextClass: "2025-01-15 14:00",
     status: "active",
+    totalHours: 24,
+    avatar: "https://ugc.same-assets.com/ai6TgITjxdHUL2Tc-yI7hupbSqTnrnp7.jpeg",
   },
   {
     id: 2,
-    name: "Mohammad Khan",
-    email: "mohammad@example.com",
-    level: "Beginner",
-    progress: 45,
-    lessonsCompleted: 8,
-    nextLesson: "2025-06-17T14:00:00",
+    name: "Sarah Johnson",
+    email: "sarah@email.com",
+    level: "Advanced",
+    progress: 92,
+    lastClass: "2025-01-13",
+    nextClass: "2025-01-16 10:00",
     status: "active",
+    totalHours: 48,
+    avatar: "",
   },
   {
     id: 3,
-    name: "Lisa Rodriguez",
-    email: "lisa@example.com",
-    level: "Advanced",
-    progress: 90,
-    lessonsCompleted: 25,
-    nextLesson: "2025-06-18T09:00:00",
+    name: "Mike Chen",
+    email: "mike@email.com",
+    level: "Beginner",
+    progress: 45,
+    lastClass: "2025-01-10",
+    nextClass: "2025-01-17 16:00",
     status: "active",
+    totalHours: 12,
+    avatar: "",
+  },
+  {
+    id: 4,
+    name: "Emma Wilson",
+    email: "emma@email.com",
+    level: "Intermediate",
+    progress: 68,
+    lastClass: "2025-01-11",
+    nextClass: "2025-01-18 11:00",
+    status: "paused",
+    totalHours: 32,
+    avatar: "",
   },
 ];
 
-const mockBookings = [
+// Mock upcoming classes
+const mockUpcomingClasses = [
   {
     id: 1,
-    studentName: "Sarah Ahmed",
-    date: "2025-06-17",
-    time: "10:00",
-    type: "Private",
+    student: "John Smith",
+    date: "2025-01-15",
+    time: "14:00",
+    duration: 60,
+    type: "Private Class",
+    topic: "Business Presentation Skills",
     status: "confirmed",
   },
   {
     id: 2,
-    studentName: "Mohammad Khan",
-    date: "2025-06-17",
-    time: "14:00",
-    type: "Private",
+    student: "Sarah Johnson",
+    date: "2025-01-16",
+    time: "10:00",
+    duration: 60,
+    type: "IELTS Prep",
+    topic: "Speaking Practice",
     status: "confirmed",
   },
   {
     id: 3,
-    studentName: "Group Class A",
-    date: "2025-06-18",
+    student: "Mike Chen",
+    date: "2025-01-17",
     time: "16:00",
-    type: "Group",
+    duration: 60,
+    type: "General English",
+    topic: "Basic Conversation",
     status: "pending",
   },
 ];
 
-const mockUpcomingClasses = [
-  {
-    id: 1,
-    title: "IELTS Speaking Practice",
-    time: "10:00 AM",
-    students: 8,
-    level: "Intermediate",
+// Mock analytics data
+const mockAnalytics = {
+  weeklyStats: {
+    totalClasses: 12,
+    totalHours: 18,
+    newStudents: 3,
+    completionRate: 95,
   },
-  {
-    id: 2,
-    title: "Business English",
-    time: "2:00 PM",
-    students: 12,
-    level: "Advanced",
-  },
-  {
-    id: 3,
-    title: "Grammar Fundamentals",
-    time: "4:00 PM",
-    students: 15,
-    level: "Beginner",
-  },
-];
+  monthlyRevenue: 2400,
+  studentSatisfaction: 4.8,
+  popularTopics: [
+    { topic: "Business English", count: 8 },
+    { topic: "IELTS Preparation", count: 6 },
+    { topic: "Conversation Practice", count: 5 },
+    { topic: "Grammar Fundamentals", count: 4 },
+  ],
+};
 
 export function TeacherDashboard() {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [students, setStudents] = useState(mockStudents);
-  const [bookings, setBookings] = useState(mockBookings);
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [loginMode, setLoginMode] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [showVideoCall, setShowVideoCall] = useState(false);
+  const [selectedClass, setSelectedClass] = useState<any>(null);
 
-  // Stats calculations
-  const totalStudents = students.length;
-  const activeStudents = students.filter((s) => s.status === "active").length;
-  const totalLessons = students.reduce((acc, s) => acc + s.lessonsCompleted, 0);
-  const averageProgress = Math.round(
-    students.reduce((acc, s) => acc + s.progress, 0) / students.length
-  );
+  // Logout function
+  const handleLogout = () => {
+    window.location.href = "/";
+  };
+
+  const handleLogin = () => {
+    if (loginData.email && loginData.password) {
+      setIsLoggedIn(true);
+    }
+  };
+
+  const handleStartClass = (classData: any) => {
+    setSelectedClass(classData);
+    setShowVideoCall(true);
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-background py-24">
+        <div className="container mx-auto px-6 max-w-md">
+          <Card className="border-border bg-card/50 backdrop-blur-sm">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <GraduationCap className="h-8 w-8 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Teacher Dashboard</CardTitle>
+              <CardDescription>
+                Access your teaching dashboard and manage your classes
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Theme Toggle on Login Page */}
+              <div className="flex justify-center mb-4">
+                <ThemeToggle />
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="reza@yourlastteacher.com"
+                    value={loginData.email}
+                    onChange={(e) =>
+                      setLoginData((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={loginData.password}
+                    onChange={(e) =>
+                      setLoginData((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
+              </div>
+
+              <Button onClick={handleLogin} className="w-full glow-effect">
+                Access Dashboard
+              </Button>
+
+              <div className="text-center space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Demo credentials: any email and password
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background py-24">
-      <div className="max-w-7xl mx-auto px-6 space-y-6">
-        {/* Header */}
+      <div className="container mx-auto px-6">
+        {/* Header with Professional User Menu */}
         <div className="relative">
-          {/* Theme Toggle - Top Right */}
-          <div className="absolute top-0 right-0 z-10">
-            <ThemeToggle />
-          </div>
-
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-2 mb-6">
             <h1 className="text-4xl font-bold mb-2">
               Teacher <span className="gradient-text">Dashboard</span>
             </h1>
@@ -176,151 +270,250 @@ export function TeacherDashboard() {
               Welcome back, Reza! Manage your students and classes
             </p>
           </div>
+
+          {/* Professional User Menu - Top Right */}
+          <div className="absolute top-0 right-0 flex items-center gap-4">
+            <ThemeToggle />
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-3 p-2 hover:bg-secondary/50 rounded-lg transition-colors">
+                  <Avatar className="w-12 h-12">
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      R
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="hidden sm:block text-left">
+                    <p className="font-medium text-sm">Reza</p>
+                    <p className="text-xs text-muted-foreground">
+                      English Teacher
+                    </p>
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-56" align="end">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium">Reza</p>
+                    <p className="text-xs text-muted-foreground">
+                      reza@yourlastteacher.com
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Teacher Profile</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Dashboard Settings</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="border-border bg-card/50 backdrop-blur-sm">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Students
-              </CardTitle>
-              <Users className="h-4 w-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalStudents}</div>
-              <p className="text-xs text-green-500">+2 from last month</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card/50 backdrop-blur-sm">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Active Students
-              </CardTitle>
-              <Activity className="h-4 w-4 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{activeStudents}</div>
-              <p className="text-xs text-green-500">100% retention rate</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card/50 backdrop-blur-sm">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Lessons
-              </CardTitle>
-              <BookOpen className="h-4 w-4 text-blue-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalLessons}</div>
-              <p className="text-xs text-green-500">+12 this week</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card/50 backdrop-blur-sm">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Avg Progress
-              </CardTitle>
-              <TrendingUp className="h-4 w-4 text-yellow-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{averageProgress}%</div>
-              <p className="text-xs text-green-500">+5% improvement</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Main Content Tabs */}
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="space-y-6"
-        >
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="dashboard">Overview</TabsTrigger>
             <TabsTrigger value="students">Students</TabsTrigger>
-            <TabsTrigger value="bookings">Bookings</TabsTrigger>
+            <TabsTrigger value="classes">Classes</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="profile">Profile</TabsTrigger>
           </TabsList>
 
-          {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Today's Classes */}
+          {/* Dashboard Overview */}
+          <TabsContent value="dashboard" className="space-y-6">
+            {/* Quick Stats */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card className="border-border bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-primary" />
-                    Today's Classes
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {mockUpcomingClasses.map((classItem) => (
-                    <div
-                      key={classItem.id}
-                      className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg border border-border"
-                    >
-                      <div>
-                        <p className="font-medium">{classItem.title}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {classItem.time} • {classItem.students} students
-                        </p>
-                      </div>
-                      <Badge variant="outline" className="border-border">
-                        {classItem.level}
-                      </Badge>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">
+                        Total Students
+                      </p>
+                      <p className="text-3xl font-bold text-primary">
+                        {mockTeacherData.totalStudents}
+                      </p>
                     </div>
-                  ))}
+                    <Users className="h-8 w-8 text-primary/60" />
+                  </div>
                 </CardContent>
               </Card>
 
-              {/* Top Performing Students */}
+              <Card className="border-border bg-card/50 backdrop-blur-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">
+                        Active Classes
+                      </p>
+                      <p className="text-3xl font-bold text-primary">
+                        {mockTeacherData.activeClasses}
+                      </p>
+                    </div>
+                    <BookOpen className="h-8 w-8 text-primary/60" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border bg-card/50 backdrop-blur-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">
+                        Completed Lessons
+                      </p>
+                      <p className="text-3xl font-bold text-primary">
+                        {mockTeacherData.completedLessons}
+                      </p>
+                    </div>
+                    <CheckCircle className="h-8 w-8 text-primary/60" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border bg-card/50 backdrop-blur-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Rating</p>
+                      <p className="text-3xl font-bold text-primary">
+                        {mockTeacherData.rating}
+                      </p>
+                    </div>
+                    <Star className="h-8 w-8 text-primary/60" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Today's Schedule */}
+            <Card className="border-border bg-card/50 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5" />
+                  Today's Schedule
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {mockUpcomingClasses.slice(0, 3).map((classItem) => (
+                    <div
+                      key={classItem.id}
+                      className="flex items-center justify-between p-4 bg-secondary/20 rounded-lg"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="text-center">
+                          <p className="font-medium">{classItem.time}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {classItem.duration}min
+                          </p>
+                        </div>
+                        <div>
+                          <p className="font-medium">{classItem.student}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {classItem.topic}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge
+                          variant={
+                            classItem.status === "confirmed"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {classItem.status}
+                        </Badge>
+                        <Button
+                          size="sm"
+                          onClick={() => handleStartClass(classItem)}
+                        >
+                          <Video className="h-4 w-4 mr-2" />
+                          Start
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Activity */}
+            <div className="grid md:grid-cols-2 gap-6">
               <Card className="border-border bg-card/50 backdrop-blur-sm">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-primary" />
-                    Top Performing Students
-                  </CardTitle>
+                  <CardTitle>Weekly Performance</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {students
-                      .sort((a, b) => b.progress - a.progress)
-                      .slice(0, 3)
-                      .map((student) => (
-                        <div
-                          key={student.id}
-                          className="flex items-center justify-between"
-                        >
-                          <div className="flex items-center gap-3">
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback className="bg-primary/20 text-primary">
-                                {student.name
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <p className="font-medium">{student.name}</p>
-                              <p className="text-sm text-muted-foreground">
-                                {student.level}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <p className="font-medium">{student.progress}%</p>
-                            <Progress
-                              value={student.progress}
-                              className="w-16 h-2"
-                            />
-                          </div>
-                        </div>
-                      ))}
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between">
+                    <span>Classes Taught</span>
+                    <span className="font-medium">
+                      {mockAnalytics.weeklyStats.totalClasses}
+                    </span>
                   </div>
+                  <div className="flex justify-between">
+                    <span>Total Hours</span>
+                    <span className="font-medium">
+                      {mockAnalytics.weeklyStats.totalHours}h
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>New Students</span>
+                    <span className="font-medium">
+                      {mockAnalytics.weeklyStats.newStudents}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Completion Rate</span>
+                    <span className="font-medium">
+                      {mockAnalytics.weeklyStats.completionRate}%
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border bg-card/50 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle>Popular Topics</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {mockAnalytics.popularTopics.map((topic, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center"
+                    >
+                      <span className="text-sm">{topic.topic}</span>
+                      <div className="flex items-center gap-2">
+                        <Progress
+                          value={(topic.count / 8) * 100}
+                          className="w-20"
+                        />
+                        <span className="text-sm text-muted-foreground">
+                          {topic.count}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             </div>
@@ -328,51 +521,24 @@ export function TeacherDashboard() {
 
           {/* Students Tab */}
           <TabsContent value="students" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold">Student Management</h2>
-                <p className="text-muted-foreground">
-                  Manage your students and track their progress
-                </p>
-              </div>
-              <Button className="glow-effect">
-                <Plus className="mr-2 h-4 w-4" />
-                Add Student
-              </Button>
-            </div>
-
             <Card className="border-border bg-card/50 backdrop-blur-sm">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center gap-2">
-                    <Users className="h-5 w-5" />
-                    All Students
-                  </CardTitle>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      placeholder="Search students..."
-                      className="w-64 bg-background/50 border-border"
-                    />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-border"
-                    >
-                      <Filter className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5" />
+                  My Students
+                </CardTitle>
+                <CardDescription>
+                  Manage and track your students' progress
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {students.map((student) => (
-                    <div
-                      key={student.id}
-                      className="flex items-center justify-between p-4 bg-secondary/20 rounded-lg border border-border hover:bg-muted/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-4">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {mockStudents.map((student) => (
+                    <Card key={student.id} className="p-4">
+                      <div className="flex items-center gap-3 mb-3">
                         <Avatar>
-                          <AvatarFallback className="bg-primary/20 text-primary">
+                          <AvatarImage src={student.avatar} />
+                          <AvatarFallback>
                             {student.name
                               .split(" ")
                               .map((n) => n[0])
@@ -380,125 +546,94 @@ export function TeacherDashboard() {
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <h3 className="font-medium">{student.name}</h3>
+                          <p className="font-medium">{student.name}</p>
                           <p className="text-sm text-muted-foreground">
-                            {student.email}
+                            {student.level}
                           </p>
-                          <div className="mt-2">
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-                              <span>Progress: {student.progress}%</span>
-                            </div>
-                            <Progress
-                              value={student.progress}
-                              className="w-32 h-2"
-                            />
-                          </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-6">
-                        <div className="text-center">
-                          <p className="text-xs text-muted-foreground">Level</p>
-                          <Badge variant="outline" className="border-border">
-                            {student.level}
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>Progress</span>
+                          <span>{student.progress}%</span>
+                        </div>
+                        <Progress value={student.progress} />
+                        <div className="flex justify-between text-sm text-muted-foreground">
+                          <span>Total Hours: {student.totalHours}</span>
+                          <Badge
+                            variant={
+                              student.status === "active"
+                                ? "default"
+                                : "secondary"
+                            }
+                          >
+                            {student.status}
                           </Badge>
                         </div>
-                        <div className="text-center">
-                          <p className="text-xs text-muted-foreground">
-                            Lessons
-                          </p>
-                          <p className="font-medium">
-                            {student.lessonsCompleted}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-muted-foreground hover:text-foreground"
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-muted-foreground hover:text-red-500"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Next class: {student.nextClass}
+                        </p>
                       </div>
-                    </div>
+                    </Card>
                   ))}
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Bookings Tab */}
-          <TabsContent value="bookings" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold">Booking Management</h2>
-                <p className="text-muted-foreground">
-                  Schedule and manage your upcoming lessons
-                </p>
-              </div>
-              <Button className="glow-effect">
-                <Calendar className="mr-2 h-4 w-4" />
-                New Booking
-              </Button>
-            </div>
-
+          {/* Classes Tab */}
+          <TabsContent value="classes" className="space-y-6">
             <Card className="border-border bg-card/50 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5" />
-                  Upcoming Lessons
+                  <Calendar className="h-5 w-5" />
+                  Upcoming Classes
                 </CardTitle>
+                <CardDescription>
+                  View and manage your scheduled classes
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {bookings.map((booking) => (
+                  {mockUpcomingClasses.map((classItem) => (
                     <div
-                      key={booking.id}
-                      className="flex items-center justify-between p-4 bg-secondary/20 rounded-lg border border-border"
+                      key={classItem.id}
+                      className="p-4 border border-border rounded-lg"
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-                          <Calendar className="h-6 w-6 text-primary" />
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="text-center">
+                            <p className="font-medium">{classItem.date}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {classItem.time}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="font-medium">{classItem.student}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {classItem.type} • {classItem.topic}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Duration: {classItem.duration} minutes
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-medium">{booking.studentName}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {booking.date} at {booking.time} - {booking.type}{" "}
-                            Class
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <Badge
-                          variant={
-                            booking.status === "confirmed"
-                              ? "default"
-                              : "secondary"
-                          }
-                        >
-                          {booking.status}
-                        </Badge>
                         <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-muted-foreground hover:text-foreground"
+                          <Badge
+                            variant={
+                              classItem.status === "confirmed"
+                                ? "default"
+                                : "secondary"
+                            }
                           >
-                            <Edit className="h-4 w-4" />
-                          </Button>
+                            {classItem.status}
+                          </Badge>
                           <Button
-                            variant="ghost"
                             size="sm"
-                            className="text-muted-foreground hover:text-red-500"
+                            onClick={() => handleStartClass(classItem)}
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Video className="h-4 w-4 mr-2" />
+                            Start Class
                           </Button>
                         </div>
                       </div>
@@ -511,63 +646,208 @@ export function TeacherDashboard() {
 
           {/* Analytics Tab */}
           <TabsContent value="analytics" className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold">Analytics & Reports</h2>
-              <p className="text-muted-foreground">
-                Track your teaching performance and revenue
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="border-border bg-card/50 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="h-5 w-5 text-primary" />
+                    <TrendingUp className="h-5 w-5" />
                     Monthly Revenue
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold mb-2">$3,240</div>
-                  <p className="text-green-500 text-sm">+15% from last month</p>
-                  <div className="mt-4 h-32 bg-secondary/20 rounded-lg flex items-center justify-center border border-border">
-                    <p className="text-muted-foreground">Chart placeholder</p>
-                  </div>
+                  <p className="text-3xl font-bold text-primary">
+                    ${mockAnalytics.monthlyRevenue}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    +12% from last month
+                  </p>
                 </CardContent>
               </Card>
 
               <Card className="border-border bg-card/50 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Target className="h-5 w-5 text-primary" />
-                    Performance Metrics
+                    <Star className="h-5 w-5" />
+                    Student Satisfaction
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Completion Rate
-                      </span>
-                      <span className="font-medium">89%</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Average Score
-                      </span>
-                      <span className="font-medium">7.2/10</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Student Satisfaction
-                      </span>
-                      <span className="font-medium">4.8/5</span>
-                    </div>
+                  <p className="text-3xl font-bold text-primary">
+                    {mockAnalytics.studentSatisfaction}/5.0
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Based on recent reviews
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border bg-card/50 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart className="h-5 w-5" />
+                    Weekly Stats
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm">Classes</span>
+                    <span className="font-medium">
+                      {mockAnalytics.weeklyStats.totalClasses}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm">Hours</span>
+                    <span className="font-medium">
+                      {mockAnalytics.weeklyStats.totalHours}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm">Completion</span>
+                    <span className="font-medium">
+                      {mockAnalytics.weeklyStats.completionRate}%
+                    </span>
                   </div>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
+
+          {/* Profile Tab */}
+          <TabsContent value="profile" className="space-y-6">
+            <Card className="border-border bg-card/50 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <User className="h-5 w-5" />
+                  Teacher Profile
+                </CardTitle>
+                <CardDescription>
+                  Manage your professional information
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex items-center gap-6">
+                  <Avatar className="w-24 h-24">
+                    <AvatarFallback className="text-2xl bg-primary text-primary-foreground">
+                      R
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold">
+                      {mockTeacherData.name}
+                    </h3>
+                    <p className="text-muted-foreground">
+                      English Language Teacher
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Star className="h-4 w-4 text-yellow-500" />
+                      <span>{mockTeacherData.rating}/5.0</span>
+                      <span className="text-muted-foreground">
+                        • {mockTeacherData.experience}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Contact Information</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-muted-foreground" />
+                        <span>{mockTeacherData.email}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4 text-muted-foreground" />
+                        <span>+1 (555) 123-4567</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Globe className="h-4 w-4 text-muted-foreground" />
+                        <span>yourlastteacher.com</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Specializations</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {mockTeacherData.specializations.map((spec, index) => (
+                        <Badge key={index} variant="outline">
+                          {spec}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="font-semibold">Teaching Statistics</h4>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="text-center p-4 bg-secondary/20 rounded-lg">
+                      <p className="text-2xl font-bold text-primary">
+                        {mockTeacherData.totalStudents}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Total Students
+                      </p>
+                    </div>
+                    <div className="text-center p-4 bg-secondary/20 rounded-lg">
+                      <p className="text-2xl font-bold text-primary">
+                        {mockTeacherData.completedLessons}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Lessons Taught
+                      </p>
+                    </div>
+                    <div className="text-center p-4 bg-secondary/20 rounded-lg">
+                      <p className="text-2xl font-bold text-primary">
+                        {mockTeacherData.rating}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Average Rating
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
+
+        {/* Video Call Modal */}
+        {showVideoCall && selectedClass && (
+          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+            <div className="bg-background border border-border rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold">Teaching Session</h2>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowVideoCall(false)}
+                  >
+                    End Session
+                  </Button>
+                </div>
+
+                <VideoCall
+                  classData={{
+                    id: `class_${selectedClass.id}`,
+                    title: selectedClass.topic,
+                    date: selectedClass.date,
+                    time: selectedClass.time,
+                    duration: selectedClass.duration,
+                    type: "zoom",
+                    teacher: "Reza",
+                    student: selectedClass.student, // ✅ This line is causing the error
+                    meetingUrl: "https://zoom.us/j/1234567890",
+                    meetingId: "123 456 7890",
+                    password: "english123",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

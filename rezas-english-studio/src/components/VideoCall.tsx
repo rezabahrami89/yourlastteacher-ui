@@ -1,88 +1,110 @@
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useState } from "react";
 import {
-  Video, VideoOff, Mic, MicOff, Phone, PhoneOff,
-  Monitor, Users, Calendar, Clock, Settings,
-  ExternalLink, Copy, CheckCircle, AlertCircle
-} from 'lucide-react'
-import { toast } from 'sonner'
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Video,
+  VideoOff,
+  Mic,
+  MicOff,
+  Phone,
+  PhoneOff,
+  Monitor,
+  Users,
+  Calendar,
+  Clock,
+  Settings,
+  ExternalLink,
+  Copy,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
+import { toast } from "sonner";
 
 interface VideoCallProps {
   classData: {
-    id: string
-    title: string
-    date: string
-    time: string
-    duration: number
-    type: 'zoom' | 'meet'
-    teacher: string
-    meetingUrl?: string
-    meetingId?: string
-    password?: string
-  }
+    id: string;
+    title: string;
+    date: string;
+    time: string;
+    duration: number;
+    type: "zoom" | "meet";
+    teacher: string;
+    student: string;
+    meetingUrl?: string;
+    meetingId?: string;
+    password?: string;
+  };
 }
 
 export function VideoCall({ classData }: VideoCallProps) {
-  const [isCallActive, setIsCallActive] = useState(false)
-  const [videoEnabled, setVideoEnabled] = useState(true)
-  const [audioEnabled, setAudioEnabled] = useState(true)
-  const [isConnecting, setIsConnecting] = useState(false)
+  const [isCallActive, setIsCallActive] = useState(false);
+  const [videoEnabled, setVideoEnabled] = useState(true);
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const copyToClipboard = (text: string, label: string) => {
-    navigator.clipboard.writeText(text)
-    toast.success(`${label} copied to clipboard!`)
-  }
+    navigator.clipboard.writeText(text);
+    toast.success(`${label} copied to clipboard!`);
+  };
 
   const joinCall = async () => {
-    setIsConnecting(true)
+    setIsConnecting(true);
 
     // Simulate connection delay
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     if (classData.meetingUrl) {
       // In a real implementation, you would integrate with actual video calling APIs
-      window.open(classData.meetingUrl, '_blank')
-      setIsCallActive(true)
-      toast.success('Joining video call...')
+      window.open(classData.meetingUrl, "_blank");
+      setIsCallActive(true);
+      toast.success("Joining video call...");
     } else {
-      toast.error('Meeting link not available')
+      toast.error("Meeting link not available");
     }
 
-    setIsConnecting(false)
-  }
+    setIsConnecting(false);
+  };
 
   const endCall = () => {
-    setIsCallActive(false)
-    toast.info('Call ended')
-  }
+    setIsCallActive(false);
+    toast.info("Call ended");
+  };
 
   const toggleVideo = () => {
-    setVideoEnabled(!videoEnabled)
-    toast.info(videoEnabled ? 'Video disabled' : 'Video enabled')
-  }
+    setVideoEnabled(!videoEnabled);
+    toast.info(videoEnabled ? "Video disabled" : "Video enabled");
+  };
 
   const toggleAudio = () => {
-    setAudioEnabled(!audioEnabled)
-    toast.info(audioEnabled ? 'Microphone muted' : 'Microphone unmuted')
-  }
+    setAudioEnabled(!audioEnabled);
+    toast.info(audioEnabled ? "Microphone muted" : "Microphone unmuted");
+  };
 
   const generateMeetingDetails = () => {
     // Mock meeting details - in a real app, these would come from your backend
-    const baseUrl = classData.type === 'zoom'
-      ? 'https://zoom.us/j/'
-      : 'https://meet.google.com/'
+    const baseUrl =
+      classData.type === "zoom"
+        ? "https://zoom.us/j/"
+        : "https://meet.google.com/";
 
     return {
-      url: classData.meetingUrl || `${baseUrl}${Math.random().toString(36).substr(2, 10)}`,
+      url:
+        classData.meetingUrl ||
+        `${baseUrl}${Math.random().toString(36).substr(2, 10)}`,
       id: classData.meetingId || Math.random().toString().substr(2, 10),
-      password: classData.password || Math.random().toString(36).substr(2, 6)
-    }
-  }
+      password: classData.password || Math.random().toString(36).substr(2, 6),
+    };
+  };
 
-  const meetingDetails = generateMeetingDetails()
+  const meetingDetails = generateMeetingDetails();
 
   return (
     <div className="space-y-6">
@@ -96,11 +118,12 @@ export function VideoCall({ classData }: VideoCallProps) {
                 {classData.title}
               </CardTitle>
               <CardDescription>
-                {classData.date} at {classData.time} • {classData.duration} minutes
+                {classData.date} at {classData.time} • {classData.duration}{" "}
+                minutes
               </CardDescription>
             </div>
             <Badge variant="outline" className="capitalize">
-              {classData.type === 'zoom' ? 'Zoom' : 'Google Meet'}
+              {classData.type === "zoom" ? "Zoom" : "Google Meet"}
             </Badge>
           </div>
         </CardHeader>
@@ -130,7 +153,9 @@ export function VideoCall({ classData }: VideoCallProps) {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => copyToClipboard(meetingDetails.url, 'Meeting URL')}
+                    onClick={() =>
+                      copyToClipboard(meetingDetails.url, "Meeting URL")
+                    }
                   >
                     <Copy className="h-3 w-3" />
                   </Button>
@@ -146,7 +171,9 @@ export function VideoCall({ classData }: VideoCallProps) {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => copyToClipboard(meetingDetails.id, 'Meeting ID')}
+                    onClick={() =>
+                      copyToClipboard(meetingDetails.id, "Meeting ID")
+                    }
                   >
                     <Copy className="h-3 w-3" />
                   </Button>
@@ -162,7 +189,9 @@ export function VideoCall({ classData }: VideoCallProps) {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => copyToClipboard(meetingDetails.password, 'Password')}
+                    onClick={() =>
+                      copyToClipboard(meetingDetails.password, "Password")
+                    }
                   >
                     <Copy className="h-3 w-3" />
                   </Button>
@@ -198,7 +227,7 @@ export function VideoCall({ classData }: VideoCallProps) {
 
             <Button
               variant="outline"
-              onClick={() => window.open(meetingDetails.url, '_blank')}
+              onClick={() => window.open(meetingDetails.url, "_blank")}
             >
               <ExternalLink className="h-4 w-4" />
             </Button>
@@ -223,7 +252,11 @@ export function VideoCall({ classData }: VideoCallProps) {
                 onClick={toggleAudio}
                 className="rounded-full w-12 h-12"
               >
-                {audioEnabled ? <Mic className="h-5 w-5" /> : <MicOff className="h-5 w-5" />}
+                {audioEnabled ? (
+                  <Mic className="h-5 w-5" />
+                ) : (
+                  <MicOff className="h-5 w-5" />
+                )}
               </Button>
 
               <Button
@@ -232,7 +265,11 @@ export function VideoCall({ classData }: VideoCallProps) {
                 onClick={toggleVideo}
                 className="rounded-full w-12 h-12"
               >
-                {videoEnabled ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5" />}
+                {videoEnabled ? (
+                  <Video className="h-5 w-5" />
+                ) : (
+                  <VideoOff className="h-5 w-5" />
+                )}
               </Button>
 
               <Button
@@ -247,7 +284,8 @@ export function VideoCall({ classData }: VideoCallProps) {
 
             <div className="text-center mt-4">
               <p className="text-sm text-muted-foreground">
-                Call duration: {/* In a real app, you'd track actual call time */}
+                Call duration:{" "}
+                {/* In a real app, you'd track actual call time */}
                 <span className="font-mono">00:05:32</span>
               </p>
             </div>
@@ -264,8 +302,9 @@ export function VideoCall({ classData }: VideoCallProps) {
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              <strong>Technical Requirements:</strong> Make sure you have a stable internet connection,
-              a working camera and microphone, and the latest version of your browser.
+              <strong>Technical Requirements:</strong> Make sure you have a
+              stable internet connection, a working camera and microphone, and
+              the latest version of your browser.
             </AlertDescription>
           </Alert>
 
@@ -274,7 +313,9 @@ export function VideoCall({ classData }: VideoCallProps) {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                <span>Test your camera and microphone 5 minutes before class</span>
+                <span>
+                  Test your camera and microphone 5 minutes before class
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
@@ -305,7 +346,8 @@ export function VideoCall({ classData }: VideoCallProps) {
             <div className="p-3 border border-border rounded-lg">
               <h5 className="font-semibold text-sm mb-2">Reschedule</h5>
               <p className="text-xs text-muted-foreground mb-3">
-                Need to change your class time? Reschedule up to 24 hours in advance.
+                Need to change your class time? Reschedule up to 24 hours in
+                advance.
               </p>
               <Button size="sm" variant="outline" className="w-full">
                 Reschedule Class
@@ -315,23 +357,24 @@ export function VideoCall({ classData }: VideoCallProps) {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
 // Example usage component
 export function VideoCallExample() {
   const mockClassData = {
-    id: 'class_001',
-    title: 'Business English Presentation Skills',
-    date: '2025-01-15',
-    time: '14:00',
+    id: "class_001",
+    title: "Business English Presentation Skills",
+    date: "2025-01-15",
+    time: "14:00",
     duration: 60,
-    type: 'zoom' as const,
-    teacher: 'Reza',
-    meetingUrl: 'https://zoom.us/j/1234567890',
-    meetingId: '123 456 7890',
-    password: 'english123'
-  }
+    type: "zoom" as const,
+    teacher: "Reza",
+    student: "Student Name",
+    meetingUrl: "https://zoom.us/j/1234567890",
+    meetingId: "123 456 7890",
+    password: "english123",
+  };
 
   return (
     <div className="min-h-screen bg-background py-24">
@@ -348,5 +391,5 @@ export function VideoCallExample() {
         <VideoCall classData={mockClassData} />
       </div>
     </div>
-  )
+  );
 }

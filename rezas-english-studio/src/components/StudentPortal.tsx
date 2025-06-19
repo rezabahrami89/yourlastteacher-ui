@@ -1,20 +1,3 @@
-// Add this import at the top
-import { LogOut } from "lucide-react";
-
-// Add this logout function inside your component
-const handleLogout = () => {
-  window.location.href = "/"; // Goes back to home page
-};
-
-// Add this logout button in your JSX (wherever makes sense in your layout)
-<button
-  onClick={handleLogout}
-  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
->
-  <LogOut size={16} />
-  Logout
-</button>;
-
 import { useState } from "react";
 import {
   Card,
@@ -30,6 +13,14 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   BookOpen,
   Download,
@@ -48,6 +39,10 @@ import {
   BarChart,
   Users,
   MessageSquare,
+  LogOut,
+  User,
+  Settings,
+  ChevronDown,
 } from "lucide-react";
 import { VideoCall } from "@/components/VideoCall";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -172,6 +167,11 @@ export function StudentPortal() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [showVideoCall, setShowVideoCall] = useState(false);
 
+  // Logout function
+  const handleLogout = () => {
+    window.location.href = "/";
+  };
+
   const handleLogin = () => {
     // Check if it's admin login
     if (
@@ -269,7 +269,7 @@ export function StudentPortal() {
   return (
     <div className="min-h-screen bg-background py-24">
       <div className="container mx-auto px-6">
-        {/* Header with Theme Toggle */}
+        {/* Header with Professional User Menu */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold mb-2">
@@ -280,12 +280,66 @@ export function StudentPortal() {
               Continue your English learning journey with Reza
             </p>
           </div>
+
+          {/* Professional User Menu */}
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <Avatar className="w-16 h-16">
-              <AvatarImage src="https://ugc.same-assets.com/ai6TgITjxdHUL2Tc-yI7hupbSqTnrnp7.jpeg" />
-              <AvatarFallback>JS</AvatarFallback>
-            </Avatar>
+
+            {/* User Dropdown Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-3 p-2 hover:bg-secondary/50 rounded-lg transition-colors">
+                  <Avatar className="w-12 h-12">
+                    <AvatarImage src="https://ugc.same-assets.com/ai6TgITjxdHUL2Tc-yI7hupbSqTnrnp7.jpeg" />
+                    <AvatarFallback>JS</AvatarFallback>
+                  </Avatar>
+                  <div className="hidden sm:block text-left">
+                    <p className="font-medium text-sm">
+                      {mockStudentData.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {mockStudentData.level} Student
+                    </p>
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-56" align="end">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium">
+                      {mockStudentData.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {mockStudentData.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile Settings</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Preferences</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
