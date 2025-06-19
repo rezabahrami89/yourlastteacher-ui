@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/ui/Navbar";
 import React, { useState, useEffect } from "react";
 import {
   Card,
