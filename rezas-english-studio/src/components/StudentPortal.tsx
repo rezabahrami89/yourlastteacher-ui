@@ -695,19 +695,20 @@ export function StudentPortal() {
                     Close
                   </Button>
                 </div>
-
+                // ✅ FIXED (Added student property)
                 <VideoCall
                   classData={{
-                    id: "class_001",
-                    title: mockStudentData.nextClass.topic,
-                    date: mockStudentData.nextClass.date,
-                    time: mockStudentData.nextClass.time,
+                    id: "some_id",
+                    title: "some_title",
+                    date: "some_date",
+                    time: "some_time",
                     duration: 60,
                     type: "zoom",
-                    teacher: "Reza",
-                    meetingUrl: "https://zoom.us/j/1234567890",
-                    meetingId: "123 456 7890",
-                    password: "english123",
+                    teacher: "some_teacher",
+                    student: "Student Name", // ✅ ADD THIS LINE
+                    meetingUrl: "some_url",
+                    meetingId: "some_id",
+                    password: "some_password",
                   }}
                 />
               </div>
