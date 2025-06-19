@@ -1,3 +1,12 @@
+// ✅ STEP 4A: Add this at the top of your StudentPortal component (after imports)
+const navItems = [
+  { key: "dashboard", label: "Dashboard" },
+  { key: "materials", label: "Materials" },
+  { key: "lessons", label: "Lessons" },
+  { key: "progress", label: "Progress" },
+  { key: "achievements", label: "Achievements" },
+];
+
 import { useState } from "react";
 import {
   Card,
@@ -343,27 +352,53 @@ export function StudentPortal() {
           </div>
         </div>
 
+        {/* ✅ STEP 4B: Replace the <Tabs> section with this: */}
+        <div className="w-full mb-6">
+          {/* Mobile: Horizontal Scrollable Navigation */}
+          <div className="md:hidden">
+            <div className="flex space-x-2 overflow-x-auto pb-2 px-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => setActiveTab(item.key)}
+                  className={`
+            flex-shrink-0 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap
+            ${
+              activeTab === item.key
+                ? "bg-purple-600 text-white shadow-lg"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+            }
+          `}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: Full Width Navigation */}
+          <div className="hidden md:flex bg-gray-800 rounded-lg p-1 space-x-1">
+            {navItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => setActiveTab(item.key)}
+                className={`
+          flex-1 px-4 py-3 rounded-md text-sm font-medium transition-all duration-200
+          ${
+            activeTab === item.key
+              ? "bg-purple-600 text-white shadow-lg"
+              : "text-gray-300 hover:bg-gray-700 hover:text-white"
+          }
+        `}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 gap-1">
-            <TabsTrigger value="dashboard" className="text-xs md:text-sm">
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="materials" className="text-xs md:text-sm">
-              Materials
-            </TabsTrigger>
-            <TabsTrigger value="lessons" className="text-xs md:text-sm">
-              Lessons
-            </TabsTrigger>
-            <TabsTrigger value="progress" className="text-xs md:text-sm">
-              Progress
-            </TabsTrigger>
-            <TabsTrigger
-              value="achievements"
-              className="text-xs md:text-sm col-span-2 md:col-span-1"
-            >
-              Achievements
-            </TabsTrigger>
-          </TabsList>
+          {/* Keep all your TabsContent sections exactly as they are */}
 
           {/* Dashboard Tab */}
           <TabsContent value="dashboard" className="space-y-6">
