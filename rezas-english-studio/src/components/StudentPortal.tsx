@@ -1,3 +1,20 @@
+// Add this import at the top
+import { LogOut } from "lucide-react";
+
+// Add this logout function inside your component
+const handleLogout = () => {
+  window.location.href = "/"; // Goes back to home page
+};
+
+// Add this logout button in your JSX (wherever makes sense in your layout)
+<button
+  onClick={handleLogout}
+  className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+>
+  <LogOut size={16} />
+  Logout
+</button>;
+
 import { useState } from "react";
 import {
   Card,
