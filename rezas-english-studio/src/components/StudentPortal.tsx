@@ -344,12 +344,25 @@ export function StudentPortal() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="materials">Materials</TabsTrigger>
-            <TabsTrigger value="lessons">Lessons</TabsTrigger>
-            <TabsTrigger value="progress">Progress</TabsTrigger>
-            <TabsTrigger value="achievements">Achievements</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 gap-1">
+            <TabsTrigger value="dashboard" className="text-xs md:text-sm">
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="materials" className="text-xs md:text-sm">
+              Materials
+            </TabsTrigger>
+            <TabsTrigger value="lessons" className="text-xs md:text-sm">
+              Lessons
+            </TabsTrigger>
+            <TabsTrigger value="progress" className="text-xs md:text-sm">
+              Progress
+            </TabsTrigger>
+            <TabsTrigger
+              value="achievements"
+              className="text-xs md:text-sm col-span-2 md:col-span-1"
+            >
+              Achievements
+            </TabsTrigger>
           </TabsList>
 
           {/* Dashboard Tab */}
