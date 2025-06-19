@@ -232,7 +232,7 @@ export function BookingModal({
                     <PhoneInput
                       placeholder="Enter phone number"
                       value={formData.phone}
-                      onChange={(value) =>
+                      onChange={(value: string | undefined) =>
                         handleInputChange("phone", value || "")
                       }
                       defaultCountry="US"
